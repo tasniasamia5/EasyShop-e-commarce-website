@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Test Slider</title>
+<style>
+  body { margin: 0; }
+  .header-slider {
+    position: relative;
+    overflow: hidden;
+    height: 300px;
+    width: 100%;
+  }
+
+  .header-slider ul {
+    list-style: none;
+    margin: 0; padding: 0;
+    width: 500%; /* 5 slides */
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .header-slider ul li {
+    float: left;
+    width: 20%; /* 100% / 5 slides */
+  }
+
+  .header-slider ul li img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .control_prev, .control_next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    color: black;
+    background: rgba(255,255,255,0.7);
+    padding: 10px;
+    cursor: pointer;
+    user-select: none;
+    z-index: 10;
+    text-decoration: none;
+  }
+  .control_prev { left: 10px; }
+  .control_next { right: 10px; }
+</style>
+</head>
+<body>
+
+<div class="header-slider">
+  <a href="#" class="control_prev">&#129144;</a>
+  <a href="#" class="control_next">&#129146;</a>
+  <ul>
+    <li><img src="images/beauty3-slider.jpg" alt="Slide 1" /></li>
+    <li><img src="images/gadgets.jpg" alt="Slide 2" /></li>
+    <li><img src="images/book_real.jpg" alt="Slide 3" /></li>
+    <li><img src="images/Kitchen slider.jpg" alt="Slide 4" /></li>
+    <li><img src="images/toy_banner.jpg" alt="Slide 5" /></li>
+  </ul>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const sliderList = document.querySelector('.header-slider ul');
+  const slides = document.querySelectorAll('.header-slider ul li');
+  const totalSlides = slides.length;
+  let currentSlide = 0;
+
+  function updateSlider() {
+    const offset = -(currentSlide * 100 / totalSlides);
+    sliderList.style.transform = `translateX(${offset}%)`;
+  }
+
+  document.querySelector('.control_prev').addEventListener('click', e => {
+    e.preventDefault();
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateSlider();
+  });
+
+  document.querySelector('.control_next').addEventListener('click', e => {
+    e.preventDefault();
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateSlider();
+  });
+
+  // Auto slide every 5 seconds
+  setInterval(() => {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateSlider();
+  }, 5000);
+});
+</script>
+
+</body>
+</html>
